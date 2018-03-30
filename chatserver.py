@@ -10,11 +10,11 @@ def accept_incoming_connections():
     
     while True:
         client, client_address = SERVER.accept()
-        print("%s: %s connected." % cliente_address)
+        print("%s: %s connected." % client_address)
         client.send(bytes("Greetings from the batcave!" +
                             "Now, type you nick and press enter", "utf8"))
         addresses[client] = client_address
-        Thread(target=handle_client, args=(client,)).start()
+        Thread(target = handle_client, args = (client,)).start()
 
 def handle_client(client):  # Takes client socket as argument -- pegando o socket do client como argumento
     """ Handles a single client connection -- Configurando a conexão com um cliente"""
@@ -36,8 +36,10 @@ def handle_client(client):  # Takes client socket as argument -- pegando o socke
             broadcast(bytes("%s has left the chat."% name, "utf8"))
             break
 
-def broadcast (msg, prefix=""):  #prefix is for name identification -- prefixo é para identificar quem fala
-    """Broadcasts a message to all the clients -- Enviar uma mensagem em broadcast para todos""""
+def broadcast (msg, prefix = ""):  #prefix is for name identification -- prefixo é para identificar quem fala
+    
+    #""" Broadcasts a message to all the clients -- Enviar uma mensagem em broadcast para todos """"
+    
     for sock in clients:
         sock.send(bytes(prefix, "utf8")+ msg)
 
@@ -56,7 +58,7 @@ SERVER.bind(ADDR)
 if __name__ == "__main__":
     SERVER.listen(5)   #Listen for 5 conections at max -- permita no m[aximo 5 conexões
     print("Waiting for connection...")
-    ACCEPT_THREAD = Thread(target=accept_incoming_connections)
+    ACCEPT_THREAD = Thread(target = accept_incoming_connections)
     ACCEPT_THREAD.start()  #Start the infinite loop -- iniciando o loop infinito
     ACCEPT_THREAD.join()
     SERVER.close()
